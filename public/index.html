@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HA • Quality & Risk | งานพัสดุ รพ.อุตรดิตถ์</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <div class="eyebrow">SMART PROCUREMENT • UTTARADIT HOSPITAL</div>
+      <h1>HA • Quality & Risk</h1>
+      <p>งานคุณภาพและบริหารความเสี่ยง กลุ่มงานพัสดุ โรงพยาบาลอุตรดิตถ์</p>
+    </div>
+    <div class="hero-actions">
+      <button id="homeBtn" class="ghost hidden">⌂ กลับหน้า HA</button>
+      <button id="refreshBtn" class="ghost">↻ รีเฟรช</button>
+    </div>
+  </header>
+
+  <div id="notice" class="notice hidden"></div>
+
+  <section id="haHome" class="workspace active">
+    <main>
+      <div class="ha-overview-head">
+        <div>
+          <span class="badge">HA CONTROL CENTER</span>
+          <h2>ภาพรวมงานคุณภาพกลุ่มงานพัสดุ</h2>
+          <p>อ่านภาพรวมก่อน แล้วกดเข้าไปดูรายละเอียดของแต่ละงานได้ทันที</p>
+        </div>
+        <div class="ha-period-card"><small>รอบที่กำลังดู</small><strong id="haPeriodTitle">ก.ย. 69</strong><span id="haPeriodSub">ปีงบประมาณ 2569</span></div>
+      </div>
+      <div id="haWorkMatrix" class="ha-work-matrix"></div>
+      <div class="panel ha-month-nav-panel">
+        <div class="panel-head"><div><span class="badge">เลือกช่วงเวลา</span><h2>เดือนรายงาน</h2><p>Risk Profile ใช้ Master เดิมต่อเนื่อง ส่วนรายงานและการทบทวนเลือกอ่านตามเดือน</p></div></div>
+        <div id="haMonthStrip" class="ha-month-strip"></div>
+      </div>
+      <div class="panel recent-panel">
+        <div class="panel-head"><div><h2>เอกสารที่กำลังดำเนินการ <span id="haMonthCurrentLabel"></span></h2><p>กดรายการเพื่อเข้าไปอ่านหรือทำงานต่อ</p></div></div>
+        <div id="qualityRecent" class="empty">ยังไม่มีเอกสาร HA</div>
+      </div>
+    </main>
+  </section>
+
+  <section id="riskWorkspace" class="workspace">
+    <nav class="tabs">
+      <button data-tab="dashboard" class="active">▦ ข้อมูลจาก HA • ส.ค. 69</button>
+      <button data-tab="report">＋ รายงานความเสี่ยง</button>
+      <button data-tab="review">☑ ทบทวนความเสี่ยง</button>
+    </nav>
+    <main>
+      <section id="dashboard" class="tab-page active">
+        <div class="ha-risk-summary">
+          <div class="ha-risk-stat"><span>ความเสี่ยงที่รายงานใน ส.ค. 69</span><strong id="haRiskTotal">102</strong><small>เฉพาะรายการที่เกี่ยวข้องกับกลุ่มงานพัสดุ</small></div>
+          <div class="ha-risk-stat"><span>หน่วยงานอื่นรายงานถึงพัสดุ</span><strong id="haRiskIncoming">101</strong><small>รายการ</small></div>
+          <div class="ha-risk-stat"><span>พัสดุรายงานเอง</span><strong id="haRiskSelf">1</strong><small>รายการ</small></div>
+          <div class="ha-risk-stat"><span>จากกลุ่มงานบัญชี</span><strong id="haRiskAccounting">100</strong><small>รายการ</small></div>
+        </div>
+        <div class="panel ha-risk-browser">
+          <div class="panel-head">
+            <div><span class="badge">ข้อมูลจาก HA</span><h2>รายงานความเสี่ยง — สิงหาคม 2569</h2><p>จากไฟล์ Form Risk (1 ต.ค. 68 - 16 ก.ย. 69) • คลิกชื่อเรื่องเพื่ออ่านรายละเอียด การแก้ไข และสถานะ</p></div>
+          </div>
+          <div class="ha-risk-toolbar">
+            <input id="haRiskSearch" placeholder="ค้นหาเลขที่ความเสี่ยง ชื่อเรื่อง หรือหน่วยงาน">
+            <div class="ha-risk-filters">
+              <button type="button" class="ha-risk-filter active" data-risk-filter="all">ทั้งหมด <span>102</span></button>
+              <button type="button" class="ha-risk-filter" data-risk-filter="incoming">หน่วยงานอื่น → พัสดุ <span>101</span></button>
+              <button type="button" class="ha-risk-filter" data-risk-filter="self">พัสดุรายงานเอง <span>1</span></button>
+            </div>
+          </div>
+          <div class="ha-risk-columns">
+            <div>
+              <div class="ha-risk-list-head"><b id="haRiskListCount">102 รายการ</b><small>เรียงตามวันที่รายงานล่าสุด</small></div>
+              <div id="haRiskList" class="ha-risk-list"></div>
+            </div>
+            <aside id="haRiskDetail" class="ha-risk-detail">
+              <div class="empty">เลือกชื่อเรื่องทางซ้ายเพื่ออ่านรายละเอียด</div>
+            </aside>
+          </div>
+        </div>
+      </section>
+      <section id="report" class="tab-page">
+        <form id="riskForm" class="panel">
+          <div class="panel-head"><div><h2>รายงานความเสี่ยงใหม่</h2><p>บันทึกอุบัติการณ์จากงานประจำ แล้วส่งต่อให้หัวหน้า / Risk Manager ทบทวน</p></div></div>
+          <h3 class="section-title">1. ข้อมูลเหตุการณ์</h3>
+          <div class="form-grid"><label>วันที่เกิดเหตุ *<input name="incidentDate" type="date" required></label><label>เวลา<input name="incidentTime" type="time"></label><label>หน่วยงาน *<input name="unit" value="กลุ่มงานพัสดุ" required></label><label>สถานที่<input name="location" placeholder="เช่น อาคารพัสดุ ชั้น 1"></label><label>ผู้รายงาน<input name="reporter" placeholder="ชื่อ-สกุล"></label><label>รหัสบัญชีอุบัติการณ์<input name="riskCode" placeholder="ถ้ามี"></label></div>
+          <h3 class="section-title">2. จัดประเภทความเสี่ยง</h3>
+          <div class="segment"><button type="button" data-group="general" class="selected">General Risk</button><button type="button" data-group="clinical">Clinical Risk</button></div><input type="hidden" name="riskGroup" value="general">
+          <div class="form-grid"><label>หมวดความปลอดภัย<select name="safetyCategory" id="safetyCategory"></select></label><label>ระดับความรุนแรง<select name="severity" id="severity"></select></label></div>
+          <label class="check"><input type="checkbox" name="isPriority"> ความเสี่ยงสำคัญ / Sentinel Event / ประเด็นที่ต้องเฝ้าระวังเป็นพิเศษ</label>
+          <h3 class="section-title">3. รายละเอียดและการแก้ไขเบื้องต้น</h3>
+          <label>ชื่อเหตุการณ์ / ประเด็นความเสี่ยง *<input name="eventTitle" required></label><label>รายละเอียดเหตุการณ์ *<textarea name="eventDetail" rows="5" required></textarea></label><label>การแก้ไขเบื้องต้น<textarea name="immediateAction" rows="4"></textarea></label>
+          <div class="actions"><button type="reset" class="secondary">ล้างข้อมูล</button><button class="primary">บันทึกและส่งทบทวน</button></div>
+        </form>
+      </section>
+      <section id="review" class="tab-page"><div class="review-layout"><aside class="panel review-list"><h2>รายการทบทวน</h2><p>เลือกเหตุการณ์จากรายการ</p><div id="reviewItems"></div></aside><div class="panel review-main"><div id="reviewEmpty" class="empty big">เลือกความเสี่ยงทางซ้าย หรือสร้างรายงานใหม่</div><form id="reviewForm" class="hidden"></form></div></div></section>
+    </main>
+  </section>
+
+  <section id="monthlyWorkspace" class="workspace quality-workspace"><main><div class="quality-layout"><aside class="panel doc-list"><h2>ทบทวนประจำเดือน</h2><button class="primary full new-doc" data-type="monthly">＋ เรื่องใหม่</button><div id="monthlyList"></div></aside><form id="monthlyForm" class="panel quality-form" data-type="monthly"><div class="form-title"><div><span class="badge">กิจกรรมที่ 5</span><h2>การค้นหาและป้องกันความเสี่ยง (เชิงรุก)</h2><p>ทบทวน 12 กิจกรรม PCT • แบบสรุปประจำเดือน</p></div><span id="monthlyStatus" class="doc-status draft">ร่าง</span></div><input type="hidden" name="docId"><div class="form-grid"><label>ประจำเดือน<select name="monthName"></select></label><label>ปีงบประมาณ<input name="budgetYear" value="2569" type="number"></label><label>วันที่ทบทวน<input name="reviewDate" type="date"></label><label>ผู้จัดทำ<input name="authorName" value="นายมนูศักดิ์ อยู่บาง" readonly></label></div><div class="risk-review-table-wrap"><table class="risk-review-table monthly-six-col"><thead><tr><th>เรื่อง</th><th>จำนวนครั้ง</th><th>ประเภท</th><th>วิธีแก้ไข (อุบัติการณ์)</th><th>วิธีป้องกัน (อุบัติการณ์)</th><th>ผลการแก้ไขป้องกัน</th></tr></thead><tbody><tr><td><textarea name="title" rows="12" required></textarea></td><td><input name="count" value="-"></td><td><select name="riskType"><option value="1">1 ตาม Risk Profile</option><option value="2">2 ความเสี่ยงทางคลินิก</option><option value="3">3 ความเสี่ยงทางคลินิกเฉพาะโรค</option><option value="4" selected>4 ความเสี่ยงทั่วไป</option></select></td><td><textarea name="correction" rows="12"></textarea></td><td><textarea name="prevention" rows="12"></textarea></td><td><textarea name="result" rows="12"></textarea></td></tr></tbody></table></div><div class="source-links"><a href="https://drive.google.com/file/d/1AleQxkdN7QK_TLFDI1jH6NwVGHMgWLdL/view" target="_blank" rel="noopener">▣ เปิด PDF เสนอหัวหน้า ก.ย. 69</a><a href="https://docs.google.com/spreadsheets/d/1_uL7eCZXqet3kYysg_afjZcl9eZ9HDGK/edit" target="_blank" rel="noopener">▤ เปิดไฟล์ทบทวน ก.ย. 69 ใน Drive</a><a href="https://drive.google.com/file/d/1nXYwgEx_ZudvgjA_fLN1eZ-ED9bn0ehc/view" target="_blank" rel="noopener">▶ เปิดไฟล์เสียง 260914_001.MP3</a></div><label>หมายเหตุจากหัวหน้า / จุดที่ให้แก้ไข<textarea name="reviewerNote" rows="3"></textarea></label><div class="signature-box"><div><span>ผู้จัดทำ</span><strong>นายมนูศักดิ์ อยู่บาง</strong><small>เจ้าพนักงานพัสดุ</small></div><div><span>ตรวจสอบ / ลงชื่อ</span><strong>นางวราพร จันทร์ศรีทอง</strong><small>หัวหน้ากลุ่มงานพัสดุ</small><em id="monthlySigned"></em></div></div><div class="workflow-actions no-print"><button type="button" class="secondary save-draft">บันทึกร่าง</button><button type="button" class="primary send-review">ส่งหัวหน้าตรวจ</button><button type="button" class="warning need-edit">ให้แก้ไข</button><button type="button" class="approve approve-doc">✓ ตรวจแล้ว / ลงชื่อ</button><button type="button" class="secondary print-doc">▣ บันทึก PDF / พิมพ์</button><button type="button" class="success ready-ha">พร้อมส่ง HA</button></div></form></div></main></section>
+
+  <section id="rcaWorkspace" class="workspace quality-workspace"><main><div class="quality-layout"><aside class="panel doc-list"><h2>RCA</h2><button class="primary full new-doc" data-type="rca">＋ RCA ใหม่</button><div id="rcaList"></div></aside><form id="rcaForm" class="panel quality-form" data-type="rca"><div class="form-title"><div><span class="badge">Root Cause Analysis</span><h2>การวิเคราะห์หาสาเหตุที่แท้จริง (RCA)</h2></div><span id="rcaStatus" class="doc-status draft">ร่าง</span></div><input type="hidden" name="docId"><div class="form-grid"><label>เลขที่ความเสี่ยง<input name="riskNo"></label><label>หน่วยงาน<input name="unit" value="กลุ่มงานพัสดุ"></label><label>วันที่เกิดเหตุ<input name="incidentDate" type="date"></label><label>วันที่ทบทวน<input name="reviewDate" type="date"></label></div><label>เรื่อง *<input name="title" required></label><div class="form-grid"><label>ระดับคลินิก A-I<input name="clinicalSeverity" placeholder="ถ้ามี"></label><label>ระดับไม่ใช่คลินิก 1-5<input name="generalSeverity" placeholder="เช่น 3"></label></div><label>รูปแบบการวิเคราะห์<select name="analysisScope"><option>RCA ในหน่วยงาน</option><option>RCA ระหว่างหน่วยงาน</option><option>RCA โดยคณะกรรมการ</option></select></label><label>ผู้ร่วมวิเคราะห์ (1 บรรทัดต่อ 1 คน)<textarea name="participants" rows="5"></textarea></label><label>1. Story & Timeline — บอกเล่าและลำดับเหตุการณ์<textarea name="story" rows="6"></textarea></label><label>2. Potential change / Unsafe act / สาเหตุที่แท้จริง<textarea name="rootCause" rows="5"></textarea></label><label>3. Listen to voice of staff — ความเห็นจากผู้ปฏิบัติ/ผู้ร่วมเหตุการณ์<textarea name="staffVoice" rows="5"></textarea></label><label>4. Creative Solution — แนวทางแก้ไขที่นำไปใช้<textarea name="solution" rows="5"></textarea></label><div class="form-grid"><label>5. Swiss cheese — โชคดี<textarea name="lucky" rows="4"></textarea></label><label>5. Swiss cheese — โชคร้าย<textarea name="unlucky" rows="4"></textarea></label></div><label>6. สรุปผลการวิเคราะห์ / แนวทางที่แก้ไขนำไปใช้<textarea name="conclusion" rows="6"></textarea></label><label class="rca-comment-box"><span>ประเด็นข้อผิดพลาดที่พบ / ความเห็นเพิ่มเติม</span><small>ใส่รายการ 1–12 ไว้ก่อนแล้ว สามารถแก้ข้อความ เติมข้อ 13 ต่อท้าย หรือพิมพ์ความเห็นเพิ่มเติมด้านล่างได้</small><textarea name="causeComment" rows="16"></textarea></label><label>หมายเหตุจากหัวหน้า<textarea name="reviewerNote" rows="4"></textarea></label><div class="signature-box"><div><span>ผู้จัดทำ</span><strong>นายมนูศักดิ์ อยู่บาง</strong><small>เจ้าพนักงานพัสดุ</small></div><div><span>ตรวจสอบ / ลงชื่อ</span><strong>นางวราพร จันทร์ศรีทอง</strong><small>หัวหน้ากลุ่มงานพัสดุ</small><em id="rcaSigned"></em></div></div><div class="workflow-actions no-print"><button type="button" class="secondary save-draft">บันทึกร่าง</button><button type="button" class="primary send-review">ส่งหัวหน้าตรวจ</button><button type="button" class="warning need-edit">ให้แก้ไข</button><button type="button" class="approve approve-doc">✓ ตรวจแล้ว / ลงชื่อ</button><button type="button" class="secondary print-doc">▣ บันทึก PDF / พิมพ์</button><button type="button" class="success ready-ha">พร้อมส่ง HA</button></div></form></div></main></section>
+
+  <section id="aarWorkspace" class="workspace quality-workspace"><main><div class="quality-layout"><aside class="panel doc-list"><h2>AAR</h2><button class="primary full new-doc" data-type="aar">＋ AAR ใหม่</button><div id="aarList"></div></aside><form id="aarForm" class="panel quality-form" data-type="aar"><div class="form-title"><div><span class="badge">After Action Review</span><h2>การทบทวนภายหลังการเกิดอุบัติการณ์/ความเสี่ยง (AAR)</h2></div><span id="aarStatus" class="doc-status draft">ร่าง</span></div><input type="hidden" name="docId"><div class="form-grid"><label>เลขที่ความเสี่ยง<input name="riskNo"></label><label>หน่วยงาน<input name="unit" value="กลุ่มงานพัสดุ"></label><label>วันที่เกิดเหตุ<input name="incidentDate" type="date"></label><label>วันที่ทบทวน<input name="reviewDate" type="date"></label></div><label>เรื่อง *<input name="title" required></label><div class="form-grid"><label>ระดับคลินิก / ข้อร้องเรียน<input name="clinicalSeverity"></label><label>ระดับไม่ใช่คลินิก<input name="generalSeverity"></label></div><label>ผู้เข้าร่วมทบทวน (1 บรรทัดต่อ 1 คน)<textarea name="participants" rows="5"></textarea></label><label>ประเด็นปัญหา / ความเสี่ยง<textarea name="issue" rows="6"></textarea></label><label>สรุปแนวทางการปรับเปลี่ยน / พัฒนา<textarea name="development" rows="6"></textarea></label><label>ผลการพัฒนา<textarea name="result" rows="6"></textarea></label><label>หมายเหตุจากหัวหน้า<textarea name="reviewerNote" rows="3"></textarea></label><div class="signature-box"><div><span>ผู้จัดทำ</span><strong>นายมนูศักดิ์ อยู่บาง</strong><small>เจ้าพนักงานพัสดุ</small></div><div><span>ตรวจสอบ / ลงชื่อ</span><strong>นางวราพร จันทร์ศรีทอง</strong><small>หัวหน้ากลุ่มงานพัสดุ</small><em id="aarSigned"></em></div></div><div class="workflow-actions no-print"><button type="button" class="secondary save-draft">บันทึกร่าง</button><button type="button" class="primary send-review">ส่งหัวหน้าตรวจ</button><button type="button" class="warning need-edit">ให้แก้ไข</button><button type="button" class="approve approve-doc">✓ ตรวจแล้ว / ลงชื่อ</button><button type="button" class="secondary print-doc">▣ บันทึก PDF / พิมพ์</button><button type="button" class="success ready-ha">พร้อมส่ง HA</button></div></form></div></main></section>
+
+  <section id="profileWorkspace" class="workspace quality-workspace">
+    <main>
+      <div class="quality-layout">
+        <aside class="panel doc-list">
+          <h2>Risk Profile รายเดือน</h2>
+          <p>เก็บประวัติไฟล์ Export และสรุปของแต่ละเดือน</p>
+          <button id="newProfileBtn" class="primary full">＋ นำเข้าเดือนใหม่</button>
+          <a class="master-link" href="https://docs.google.com/spreadsheets/d/1D35j021AG5trb6IBqMCT6DkyFMdlqF6Q/edit" target="_blank" rel="noopener">
+            <span class="master-link-icon">▥</span>
+            <span><b>MASTER Risk Profile ปีงบประมาณ 2569</b><small>เปิดฐานข้อมูลกลางใน Google Drive</small></span>
+          </a>
+          <div id="profileList"></div>
+        </aside>
+        <section class="panel quality-form profile-panel">
+          <div class="form-title">
+            <div><span class="badge">เมนูที่ 5</span><h2>Risk Profile รายเดือน</h2><p>นำไฟล์ Excel ที่ Export จากระบบ HA มาจัดลำดับและทำสถิติอัตโนมัติ</p></div>
+            <span id="profileStatus" class="doc-status draft">ยังไม่บันทึก</span>
+          </div>
+          <input type="hidden" id="profileDocId">
+          <div class="form-grid">
+            <label>ประจำเดือน<select id="profileMonth"></select></label>
+            <label>ปีงบประมาณ<input id="profileYear" type="number" value="2569"></label>
+            <label>ชนิดไฟล์ที่นำเข้า<select id="profileImportMode"><option value="auto">อัตโนมัติ — ให้ระบบแยกเข้า/ออก</option><option value="incoming">หน่วยงานอื่นรายงานถึงพัสดุ</option><option value="outgoing">พัสดุเป็นผู้รายงาน</option><option value="combined">ไฟล์รวมทั้งเข้าและออก</option></select></label>
+            <label>หน่วยงานของเรา<input id="profileUnitName" value="กลุ่มงานพัสดุ"></label>
+          </div>
+          <div class="import-zone">
+            <div><strong>1. เลือกไฟล์ Export จากระบบ HA</strong><p>รองรับ .xls, .xlsx และ .csv — ระบบจะอ่านในเครื่องก่อน แล้วให้ตรวจการจับคู่คอลัมน์</p></div>
+            <label class="file-pick">เลือกไฟล์<input id="profileFile" type="file" accept=".xls,.xlsx,.csv"></label>
+            <span id="profileFileName">ยังไม่ได้เลือกไฟล์</span>
+          </div>
+          <div id="profileMapping" class="mapping-panel hidden">
+            <div class="panel-head"><div><h2>2. ตรวจการจับคู่คอลัมน์</h2><p>ครั้งแรกให้ตรวจให้ถูก หลังจากนั้นระบบจะจำรูปแบบหัวตารางไว้ในเครื่องนี้</p></div><button id="profileProcessBtn" type="button" class="primary">ประมวลผล</button></div>
+            <div class="mapping-grid">
+              <label>เลขที่ความเสี่ยง<select data-map="riskNo"></select></label>
+              <label>วันที่<select data-map="date"></select></label>
+              <label>หน่วยงานผู้รายงาน<select data-map="reporterUnit"></select></label>
+              <label>หน่วยงานที่รับ/เกี่ยวข้อง<select data-map="targetUnit"></select></label>
+              <label>เรื่อง/รายละเอียด<select data-map="title"></select></label>
+              <label>ระดับความรุนแรง<select data-map="severity"></select></label>
+              <label>ประเภท/หมวด<select data-map="category"></select></label>
+              <label>RCA/AAR/การทบทวน<select data-map="reviewAction"></select></label>
+            </div>
+          </div>
+          <div id="profileResult" class="hidden">
+            <div class="profile-stats">
+              <div class="stat"><span>ทั้งหมด</span><strong id="profileTotal">0</strong><small>รายการ</small></div>
+              <div class="stat"><span>พัสดุรายงานออก</span><strong id="profileOutgoing">0</strong><small>เรื่อง</small></div>
+              <div class="stat"><span>หน่วยงานอื่นส่งถึงเรา</span><strong id="profileIncoming">0</strong><small>เรื่อง</small></div>
+              <div class="stat"><span>จัดเป็น RCA</span><strong id="profileRca">0</strong><small>เรื่อง</small></div>
+              <div class="stat"><span>จัดเป็น AAR</span><strong id="profileAar">0</strong><small>เรื่อง</small></div>
+            </div>
+            <div class="panel-head profile-tools"><div><h2>3. ตรวจรายการและจัด RCA / AAR</h2><p>ถ้าไฟล์ไม่ได้ระบุ RCA/AAR ให้เลือกเองรายเรื่องได้ก่อนบันทึก</p></div><div class="hero-actions"><button id="profileExportBtn" type="button" class="secondary">⇩ ส่งออก Excel สรุป</button><button id="profilePrintBtn" type="button" class="secondary">▣ พิมพ์สรุป / PDF</button><button id="profileSaveBtn" type="button" class="primary">บันทึก Risk Profile เดือนนี้</button></div></div>
+            <div class="table-wrap"><table class="profile-table"><thead><tr><th>ลำดับ</th><th>เลขที่</th><th>วันที่</th><th>ผู้รายงาน</th><th>หน่วยงานรับ/เกี่ยวข้อง</th><th>เรื่อง</th><th>ระดับ</th><th>เข้า/ออก</th><th>RCA/AAR</th><th></th></tr></thead><tbody id="profileRows"></tbody></table></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </section>
+
+  <section id="qualityPrint" aria-hidden="true"></section>
+  <script src="/xlsx.full.min.js"></script>
+  <script src="/ha-august-risks.js"></script>
+  <script src="/ha-risk-browser.js"></script>
+  <script src="/app.js"></script>
+  <script src="/quality.js"></script>
+  <script src="/risk-profile.js"></script>
+</body>
+</html>
