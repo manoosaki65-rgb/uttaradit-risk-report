@@ -1,0 +1,1 @@
+{"name":"uttaradit-risk-report","private":true,"devDependencies":{"wrangler":"^4.0.0"},"scripts":{"deploy":"wrangler deploy"}}
