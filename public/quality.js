@@ -49,7 +49,7 @@ function haMonthItems(){
   if(!activeHaMonth)activeHaMonth=items.find(m=>m.isCurrent)||items[0];
   return items;
 }
-function docForMonth(type,m){return qualityDocs.filter(d=>d.docType===type&&d.monthName===m.name&&Number(d.budgetYear||0)===Number(m.budgetYear))}
+function docForMonth(type,m){return qualityDocs.filter(d=>{if(d.docType!==type)return false;const y=Number(d.budgetYear||0)===Number(m.budgetYear);if(!y)return false;if(d.monthName===m.name)return true;/* RCA is analysis of the previous reporting month; show it in the following HA review round too. */if(type==='rca'){const prev=new Date(m.year,m.month-1,1);return d.monthName===calendarMonths[prev.getMonth()]}return false})}
 function matrixStatus(type,m){
   if(type==='risk')return{count:null,label:m.isFuture?'—':'เปิดทะเบียน',cls:m.isFuture?'matrix-empty future':'matrix-open'};
   if(type==='profile'&&m.key==='2026-09')return{count:1,label:'MASTER 2569',cls:'matrix-has ready_ha'};
