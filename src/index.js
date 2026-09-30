@@ -15,43 +15,7 @@ if(p==="/api/migration-status"&&m==="GET"){
   return j({backend:"comparison",neon:{risks:Number(nr?.[0]?.n||0),quality_documents:Number(nq?.[0]?.n||0)},d1:{risks:Number(dr?.n||0),quality_documents:Number(dq?.n||0)}});
 }
 
-if(p==="/api/migrate-d1-to-neon"&&m==="GET"){
-  if(!sql)return j({error:"DATABASE_URL not configured"},500);
-  const {results:risks}=await env.DB.prepare("SELECT * FROM risks ORDER BY seq").all();
-  const {results:docs}=await env.DB.prepare("SELECT * FROM quality_documents ORDER BY created_at").all();
-  let risksInserted=0,qualityInserted=0;
-  if(risks.length){
-    const rr=await sql.query(
-      `WITH src AS (
-        SELECT * FROM jsonb_to_recordset($1::jsonb) AS x(
-          id uuid,seq bigint,incident_date date,incident_time time,reporter text,unit text,location text,risk_group text,safety_category text,risk_code text,event_title text,event_detail text,immediate_action text,severity text,is_priority boolean,status text,reviewer text,review_date date,root_cause text,contributing_factors text,corrective_action text,owner text,due_date date,outcome text,residual_severity text,follow_up_date date,lessons_learned text,created_by text,created_at timestamptz,updated_at timestamptz
-        )
-      )
-      INSERT INTO risks(id,seq,incident_date,incident_time,reporter,unit,location,risk_group,safety_category,risk_code,event_title,event_detail,immediate_action,severity,is_priority,status,reviewer,review_date,root_cause,contributing_factors,corrective_action,owner,due_date,outcome,residual_severity,follow_up_date,lessons_learned,created_by,created_at,updated_at)
-      SELECT id,seq,incident_date,incident_time,COALESCE(reporter,''),unit,COALESCE(location,''),risk_group,COALESCE(safety_category,''),COALESCE(risk_code,''),event_title,event_detail,COALESCE(immediate_action,''),severity,COALESCE(is_priority,false),COALESCE(status,'reported'),COALESCE(reviewer,''),review_date,COALESCE(root_cause,''),COALESCE(contributing_factors,''),COALESCE(corrective_action,''),COALESCE(owner,''),due_date,COALESCE(outcome,''),COALESCE(residual_severity,''),follow_up_date,COALESCE(lessons_learned,''),COALESCE(created_by,''),created_at,updated_at
-      FROM src ON CONFLICT(id) DO NOTHING RETURNING id`,
-      [JSON.stringify(risks)]
-    );
-    risksInserted=rr.length;
-  }
-  if(docs.length){
-    const normalized=docs.map(d=>({...d,form_data:(()=>{try{return typeof d.form_data==="string"?JSON.parse(d.form_data):d.form_data||{}}catch{return {}}})()}));
-    const dd=await sql.query(
-      `WITH src AS (
-        SELECT * FROM jsonb_to_recordset($1::jsonb) AS x(
-          id uuid,doc_type text,doc_no text,budget_year int,month_name text,title text,form_data jsonb,status text,author_name text,reviewer_name text,reviewer_note text,reviewed_at timestamptz,signed_by text,signed_at timestamptz,created_at timestamptz,updated_at timestamptz
-        )
-      )
-      INSERT INTO quality_documents(id,doc_type,doc_no,budget_year,month_name,title,form_data,status,author_name,reviewer_name,reviewer_note,reviewed_at,signed_by,signed_at,created_at,updated_at)
-      SELECT id,doc_type,doc_no,budget_year,month_name,COALESCE(title,''),COALESCE(form_data,'{}'::jsonb),COALESCE(status,'draft'),author_name,reviewer_name,reviewer_note,reviewed_at,signed_by,signed_at,created_at,updated_at
-      FROM src ON CONFLICT(id) DO NOTHING RETURNING id`,
-      [JSON.stringify(normalized)]
-    );
-    qualityInserted=dd.length;
-  }
-  const nr=await sql`SELECT COUNT(*)::int n FROM risks`, nq=await sql`SELECT COUNT(*)::int n FROM quality_documents`;
-  return j({ok:true,backend:"neon",migrated:{risksInserted,qualityInserted},neon:{risks:Number(nr?.[0]?.n||0),quality_documents:Number(nq?.[0]?.n||0)},d1:{risks:risks.length,quality_documents:docs.length}});
-}
+
 
 if(p==="/api/risks/list"&&m==="GET"){
   if(!sql)return j({error:"DATABASE_URL not configured"},500);
